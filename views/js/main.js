@@ -422,41 +422,28 @@ var resizePizzas = function(size) {
   changeSliderLabel(size);
 
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
+ 
 
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
+function changePizzaSizes(size) {
+	switch(size) {
         case "1":
-          return 0.25;
+          newWidth = 25;
+		  break;
         case "2":
-          return 0.3333;
+          newWidth = 33;
+		  break;
         case "3":
-          return 0.5;
+          newWidth = 50;
+		  break;
         default:
           console.log("bug in sizeSwitcher");
-      }
+	}
+var randomPizzaContainer = document.getElementsByClassName("randomPizzaContainer");	
+    for (var i = 0; i < randomPizzaContainer.length; i++) {
+      randomPizzaContainer[i].style.width = newWidth + "%";
     }
-
-    var newSize = sizeSwitcher(size);
-    var dx = (newSize - oldSize) * windowWidth;
-
-    return dx;
-  }
-
-  // Iterates through pizza elements on the page and changes their widths
-  function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
-    }
-  }
-
+    	
+}
   changePizzaSizes(size);
 
   // User Timing API is awesome
@@ -500,10 +487,12 @@ var itemsLength = null;
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
-	var saveScroll = document.body.scrollTop;
+    var saveScroll = document.body.scrollTop;
+
     for (var i = 0; i < itemsLength; i++) {
-    var phase = Math.sin(saveScroll / 1250) + (i % 5);
+    var phase = Math.sin((saveScroll / 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+	
 	}
 }
 window.addEventListener('scroll', updatePositions);
@@ -520,18 +509,18 @@ function fillScrollingPizzas(i,cols,s,h) {
    scrollingPizzas.appendChild(elem);
 }
 
+var scrollingPizzasContainer = document.querySelector("#movingPizzas1");
 
 document.addEventListener('DOMContentLoaded', function() {
 	var cols = 8;
 	var s = screen.availWidth / cols;
 	var h = screen.availHeight / 4;
 	var pizzaNum = cols * 4;
-	var scrollingPizzasContainer = document.querySelector("#movingPizzas1");
 	for (var i = 0; i < pizzaNum; i++) {
 		fillScrollingPizzas(i,cols,s,h);
 	}
 	scrollingPizzasContainer.appendChild(scrollingPizzas);
-    items = document.querySelectorAll('.mover');
+    items = document.getElementsByClassName("mover");
     itemsLength = items.length;
     updatePositions();
 });
@@ -540,46 +529,3 @@ scrollingPizzasContainer.appendChild(scrollingPizzas);
 items = document.querySelectorAll('.mover');
 itemsLength = items.length;
 updatePositions();
-// The following code for sliding background pizzas was pulled from Ilya's demo found at:
-// https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
-
-// Moves the sliding background pizzas based on scroll position
-/* function updatePositions() {
-  frame++;
-  window.performance.mark("mark_start_frame");
-var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(document.body.scrollTop / 1250) + (i % 5);
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  }
-
-  // User Timing API to the rescue again. Seriously, it's worth learning.
-  // Super easy to create custom metrics.
-  window.performance.mark("mark_end_frame");
-  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
-  if (frame % 10 === 0) {
-    var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-    logAverageFrame(timesToUpdatePosition);
-  }
-}
-
-// runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
-
-// Generates the sliding pizzas when the page loads.
-document.addEventListener('DOMContentLoaded', function() {
- var cols = 8;
- var s = 256;
- for (var i = 0; i < 200; i++) {
-   var elem = document.createElement('img');
-   elem.className = 'mover';
-   elem.src = "images/pizza.png";
-   elem.style.height = "100px";
-   elem.style.width = "73.333px";
-   elem.basicLeft = (i % cols) * s;
-   elem.style.top = (Math.floor(i / cols) * s) + 'px';
-   document.querySelector("#movingPizzas1").appendChild(elem);
-  }
-  updatePositions();
-});
- */
