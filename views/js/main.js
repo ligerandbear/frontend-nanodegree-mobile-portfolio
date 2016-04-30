@@ -455,9 +455,12 @@ var randomPizzaContainer = document.getElementsByClassName("randomPizzaContainer
 
 window.performance.mark("mark_start_generating"); // collect timing data
 
+//moved pizzaDiv outside of the for loop
+var pizzasDiv = document.getElementById("randomPizzas");
 // This for-loop actually creates and appends all of the pizzas when the page loads
+
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
+
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -484,13 +487,18 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 var items = null;
 var itemsLength = null;
 
+
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
     var saveScroll = document.body.scrollTop;
-
+    var phases = [];
+    for (var i = 0; i < 5; i++) {
+    phases.push(Math.sin((saveScroll / 1250) + (i % 5)));
+    }
+	var phase;
     for (var i = 0; i < itemsLength; i++) {
-    var phase = Math.sin((saveScroll / 1250) + (i % 5));
+	phase = phases[i%5];	
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
 	
 	}
@@ -509,7 +517,7 @@ function fillScrollingPizzas(i,cols,s,h) {
    scrollingPizzas.appendChild(elem);
 }
 
-var scrollingPizzasContainer = document.querySelector("#movingPizzas1");
+var scrollingPizzasContainer = document.getElementById("movingPizzas1");
 
 document.addEventListener('DOMContentLoaded', function() {
 	var cols = 8;
@@ -526,6 +534,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 scrollingPizzasContainer.appendChild(scrollingPizzas);
-items = document.querySelectorAll('.mover');
+items = document.getElementsByClassName('mover');
 itemsLength = items.length;
 updatePositions();

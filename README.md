@@ -28,6 +28,17 @@ Some useful tips to help you get started:
 
 1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
+I set up a repo on GitHub to run through GitHub Pages to have a url to run through PageSpeed Insights.
+The URL to my GitHub page is http://ligerandbear.github.io/frontend-nanodegree-mobile-portfolio/ .
+In order to get the page speed for index.html up to speed I:
+
+1. Commented the webfont on line 11 of index.html
+2. Added a media property to print.css so it would only apply if the page was being printed
+3. Inlined style.css - testing showed the page loaded fasted with the whole file inlined rather than having it minified externally
+4. Asynchronously loaded the script for Google Analytics and perfmatters.js - they were not critical to page load
+5. Compressed profilepic.jpg and resized pizzeria.jpg
+
+
 Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
 ####Part 2: Optimize Frames per Second in pizza.html
@@ -35,6 +46,20 @@ Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
 
 You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+
+To speed up the scroll animation, I:
+
+1. Took all variable definitions I could out of for loops
+2. Made the number of pizzas created on load dynamic depending on screen size
+3. Created a Document Fragment that had each scrolling pizza append to it and then appended the Document Fragment to the page
+4. Changed querySelectorAll to getElementById or getElementsByClassName, as applicable
+5. Tried to take the phase calculation out of the for loop in updatePostistions() - using the hints provided has only seemed to slow down my scoll speed, not sure what I did wrong
+
+To speed up the speed to resize the random pizzas using the slider I:
+
+1. Deleted determineDx() - I re-worked it as shown in the class videos to work as a staright percent rather than going back and forth from pixels to percentages
+2. Took all variable definitions I could out of for loops
+
 
 ### Optimization Tips and Tricks
 * [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
