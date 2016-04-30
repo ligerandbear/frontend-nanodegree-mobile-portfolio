@@ -54,6 +54,7 @@ To speed up the scroll animation, I:
 3. Created a Document Fragment that had each scrolling pizza append to it and then appended the Document Fragment to the page
 4. Changed querySelectorAll to getElementById or getElementsByClassName, as applicable
 5. Tried to take the phase calculation out of the for loop in updatePostistions() - using the hints provided has only seemed to slow down my scoll speed, not sure what I did wrong
+6. Added will-change property to .mover in style.css
 
 To speed up the speed to resize the random pizzas using the slider I:
 
